@@ -1,0 +1,19 @@
+# This file contains general metadata about the project.
+
+@prefix : <http://usefulinc.com/ns/doap#>.
+
+`Types-Capabilities`
+	:programming-language "Perl" ;
+	:shortdesc            "don't care what type of data you are given, just what you can do with it";
+	:homepage             <https://metacpan.org/release/Types-Capabilities>;
+	:download-page        <https://metacpan.org/release/Types-Capabilities>;
+	:bug-database         <https://github.com/tobyink/p5-types-capabilities/issues>;
+	:repository           [ a :GitRepository; :browse <https://github.com/tobyink/p5-types-capabilities> ];
+	:created              2025-11-14;
+	:license              <http://dev.perl.org/licenses/>;
+	:maintainer           cpan:TOBYINK;
+	:developer            cpan:TOBYINK.
+
+<http://dev.perl.org/licenses/>
+	dc:title  "the same terms as the perl 5 programming language system itself".
+
