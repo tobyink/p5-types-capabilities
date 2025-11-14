@@ -23,8 +23,16 @@ the same terms as the Perl 5 programming language system itself.
 use Test2::V0;
 
 my @modules = qw(
+	parent
 	Carp
+	Class::Method::Modifiers
+	Module::Runtime
+	Sub::HandlesVia::CodeGenerator
+	Sub::HandlesVia::Handler
 	Test2::V0
+	Type::Library
+	Type::Tiny::Duck
+	Types::Common
 );
 
 diag "\n####";

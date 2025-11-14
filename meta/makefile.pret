@@ -4,11 +4,21 @@
 
 `Types-Capabilities`
 	:runtime-requirement    [ :on "perl 5.010001"^^:CpanId ];
+	:runtime-requirement    [ :on "Type::Tiny::Duck 2.000000"^^:CpanId ];
+	:runtime-requirement    [ :on "Carp"^^:CpanId ];
+	:runtime-requirement    [ :on "Module::Runtime"^^:CpanId ];
+	:runtime-requirement    [ :on "parent"^^:CpanId ];
+	:runtime-requirement    [ :on "Sub::HandlesVia::CodeGenerator 0.050006"^^:CpanId ];
+	:runtime-requirement    [ :on "Sub::HandlesVia::Handler 0.050006"^^:CpanId ];
+	:runtime-requirement    [ :on "Class::Method::Modifiers"^^:CpanId ];
+	:runtime-requirement    [ :on "Type::Library 2.000000"^^:CpanId ];
+	:runtime-requirement    [ :on "Types::TypeTiny 2.000000"^^:CpanId ];
 	:test-requirement       [ :on "Test2::V0"^^:CpanId ];
 	:test-requirement       [ :on "Test2::Tools::Spec"^^:CpanId ];
 	:test-requirement       [ :on "Test2::Require::AuthorTesting"^^:CpanId ];
 	:test-requirement       [ :on "Test2::Require::Module"^^:CpanId ];
 	:test-requirement       [ :on "Test2::Plugin::BailOnFail"^^:CpanId ];
+	:test-requirement       [ :on "Types::Common"^^:CpanId ];
 	:develop-recommendation [ :on "Dist::Inkt 0.001"^^:CpanId ];
 	.
 
