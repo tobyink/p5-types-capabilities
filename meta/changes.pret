@@ -4,3 +4,9 @@
 	issued  2025-11-14;
 	label   "Initial release".
 
+`Types-Capabilities 0.002000 cpan:TOBYINK`
+	issued  2025-11-15;
+	changeset [
+		item [ label "It is now possible to coerce from Eachable, Mappable, and Greppable objects." ];
+	].
+

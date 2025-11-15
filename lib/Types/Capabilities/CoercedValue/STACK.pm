@@ -5,7 +5,7 @@ use warnings;
 package Types::Capabilities::CoercedValue::STACK;
 
 our $AUTHORITY = 'cpan:TOBYINK';
-our $VERSION   = '0.001000';
+our $VERSION   = '0.002000';
 
 use parent 'Types::Capabilities::CoercedValue::ARRAYREF';
 
