@@ -230,7 +230,7 @@ result of applying that to all items in that collection. The results of
 calling C<map> in scalar context are not specified, but it may return another
 collection-like object which further operations can be carried out on.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Greppable>, B<Eachable>, or B<ArrayLike>.
 
 =item B<Greppable>
 
@@ -242,7 +242,7 @@ return items in that collection where the coderef returned true. The results of
 calling C<grep> in scalar context are not specified, but it may return another
 collection-like object which further operations can be carried out on.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Eachable>, or B<ArrayLike>.
 
 =item B<Sortable>
 
@@ -256,7 +256,8 @@ coderef. The results of calling C<sort> in scalar context are not specified, but
 it may return another collection-like object which further operations can be
 carried out on.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Reversible>
 
@@ -267,7 +268,8 @@ return all the items in the collection in reverse order. The results of calling
 C<reverse> in scalar context are not specified, but it may return another
 collection-like object which further operations can be carried out on.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Countable>
 
@@ -276,7 +278,8 @@ An object which provides a C<count> method.
 The expectation is that when the method is called in scalar context, it should
 return the number of items in the collection.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Joinable>
 
@@ -287,7 +290,8 @@ return a single item that is caused by joining all the items in the collection
 together, typically via string concatenation. The method may be passed a value
 to use as a separator.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Eachable>
 
@@ -296,7 +300,7 @@ An object which provides an C<each> method.
 The expectation is that when the method is called in void context and passed
 a coderef, it should call the coderef for each item in the collection.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, or B<ArrayLike>.
 
 =back
 
@@ -311,7 +315,8 @@ An object which provides an C<enqueue> method.
 The expectation is that the method can be called with a single item to add
 that item to the end of the collection.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Dequeueable>
 
@@ -320,7 +325,8 @@ An object which provides a C<dequeue> method.
 The expectation is that when the method is called in a scalar context, it
 will remove an item from the front of the collection and return it.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Peekable>
 
@@ -335,7 +341,8 @@ C<dequeue>. When used with a stack-like collection, it is expected to return
 the item at the back/end of the collection; the item which would be returned
 by C<pop>. Otherwise, which item it returns is unspecified.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =back
 
@@ -351,7 +358,8 @@ The expectation is that the method can be called with a single item to add
 that item to the end of the collection. (This behaviour is essentially the
 same as C<enqueue>.)
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Poppable>
 
@@ -360,7 +368,8 @@ An object which provides a C<pop> method.
 The expectation is that when the method is called in a scalar context, it
 will remove an item from the end of the collection and return it.
 
-Can be coerced from B<ArrayRef> or B<ArrayLike>.
+Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
+or B<ArrayLike>.
 
 =item B<Peekable>
 

@@ -13,7 +13,16 @@ use Module::Runtime ();
 
 my $bc = sub {
 	my $c = shift;
-	$c->add_type_coercions( $c->type_constraint->{autobox}->_coercions );
+	my $t = $c->type_constraint;
+	my @c = $t->{autobox}->_coercions;
+	while ( @c ) {
+		my $from_type = shift @c;
+		my $code      = shift @c;
+		unless ( $from_type->isa('Type::Tiny::Duck') and join(':', sort @{ $from_type->methods }) eq join(':', sort @{ $t->methods }) ) {
+			$c->add_type_coercions( $from_type, $code );
+		}
+	}
+	return $c;
 };
 
 sub new {

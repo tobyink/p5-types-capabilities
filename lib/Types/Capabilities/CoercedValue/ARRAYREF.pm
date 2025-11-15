@@ -7,7 +7,7 @@ package Types::Capabilities::CoercedValue::ARRAYREF;
 our $AUTHORITY = 'cpan:TOBYINK';
 our $VERSION   = '0.001000';
 
-use Types::TypeTiny ();
+use Types::Common qw( ArrayRef ArrayLike HasMethods );
 
 sub new {
 	my $class = shift;
@@ -18,8 +18,16 @@ sub new {
 
 sub _coercions {
 	my $k = B::perlstring( shift );
-	return ( Types::TypeTiny::ArrayLike(), qq{$k->new(\$_)} );
+	return (
+		ArrayRef,            qq{$k->new(\$_)},
+		HasMethods['each'],  qq{do { my \@tmp; \$_->each(sub { push \@tmp, \@_?shift:\$_  }); $k->new(\\\@tmp) }},
+		HasMethods['grep'],  qq{$k->new([\$_->grep(sub{1})])},
+		HasMethods['map'],   qq{$k->new([\$_->map(sub{\@_?shift:\$_})])},
+		ArrayLike,           qq{$k->new(\$_)},
+	);
 }
+
+no Types::Common;
 
 1;
 
