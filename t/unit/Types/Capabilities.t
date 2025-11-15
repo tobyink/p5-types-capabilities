@@ -17,12 +17,25 @@ This software is copyright (c) 2025 by Toby Inkster.
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
-
 =cut
 
 use Test2::V0 -target => 'Types::Capabilities';
 use Test2::Tools::Spec;
 use Data::Dumper;
+
+use lib 't/lib';
+use Local::Example::Mappable;
+use Local::Example::Greppable;
+use Local::Example::Sortable;
+use Local::Example::Reversible;
+use Local::Example::Countable;
+use Local::Example::Joinable;
+use Local::Example::Eachable;
+use Local::Example::Enqueueable;
+use Local::Example::Dequeueable;
+use Local::Example::Peekable;
+use Local::Example::Pushable;
+use Local::Example::Poppable;
 
 describe "class `$CLASS`" => sub {
 
@@ -39,18 +52,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::ARRAYREF], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Mappable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Mappable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub map {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -79,18 +80,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::ARRAYREF], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Greppable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Greppable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub grep {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -119,18 +108,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::ARRAYREF], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Sortable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Sortable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub sort {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -159,18 +136,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::ARRAYREF], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Reversible];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Reversible;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub reverse {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -199,18 +164,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::ARRAYREF], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Countable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Countable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub count {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -239,18 +192,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::ARRAYREF], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Joinable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Joinable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub join {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -279,18 +220,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::ARRAYREF], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Eachable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Eachable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub each {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -319,18 +248,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::QUEUE], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Enqueueable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Enqueueable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub enqueue {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -360,18 +277,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::QUEUE], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Dequeueable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Dequeueable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub dequeue {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -401,18 +306,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::QUEUE], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Peekable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Peekable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub peek {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -442,18 +335,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::STACK], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Pushable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Pushable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub push {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
@@ -483,18 +364,6 @@ describe "class `$CLASS`" => sub {
 		is( $type->{autobox}, q[Types::Capabilities::CoercedValue::STACK], 'type has correct autobox package' );
 
 		my $eg_class = q[Local::Example::Poppable];
-		$eg_class->can( 'new' ) or eval q{
-			package Local::Example::Poppable;
-			sub new {
-				my $class = shift;
-				bless [@_], $class;
-			}
-			sub pop {
-				die 'Unimplemented';
-			}
-			1;
-		};
-
 		ok(  $type->check( $eg_class->new ), 'example object passes type check' );
 		ok( !$type->check(          undef ), 'undef fails type check' );
 		ok( !$type->check(              0 ), 'zero fails type check' );
