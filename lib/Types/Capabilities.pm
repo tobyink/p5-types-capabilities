@@ -12,7 +12,35 @@ use Type::Library -base;
 use Class::Method::Modifiers ();
 use Sub::HandlesVia::CodeGenerator ();
 use Sub::HandlesVia::Handler ();
+use Sub::HandlesVia::HandlerLibrary::Array ();
 use Types::Capabilities::Constraint ();
+
+my $_munge_handler = sub {
+	my $handler = shift;
+	return ref( $handler )->new( %$handler, prefer_shift_self => 0 );
+};
+
+BEGIN {
+	# I don't like doing this, but curried arguments are breaking things...
+
+	*Sub::HandlesVia::HandlerLibrary::Array::peek = sub {
+		return Sub::HandlesVia::Handler->new(
+			name      => 'Array:peek',
+			args      => 0,
+			template  => '($GET)->[0]',
+		);
+	};
+
+	*Sub::HandlesVia::HandlerLibrary::Array::peekend = sub {
+		return Sub::HandlesVia::Handler->new(
+			name      => 'Array:peekend',
+			args      => 0,
+			template  => '($GET)->[0]',
+		);
+	};
+
+	push @Sub::HandlesVia::HandlerLibrary::Array::METHODS, qw( peek peekend );
+};
 
 do {
 	my $array_class = 'Types::Capabilities::CoercedValue::ARRAYREF';
@@ -55,6 +83,7 @@ do {
 			Sub::HandlesVia::Handler
 				->lookup( $cap_methods->{$method}, 'Array' )
 				->loose
+				->$_munge_handler
 				->install_method( method_name => $method, code_generator => $cg );
 		}
 
@@ -76,7 +105,7 @@ do {
 	my @array_capabilities = (
 		[ 'Enqueueable' => { 'enqueue'  => 'push...'  } => undef             ],
 		[ 'Dequeueable' => { 'dequeue'  => 'shift'    } => undef             ],
-		[ 'Peekable'    => { 'peek'     => ['get',0]  } => undef             ],
+		[ 'Peekable'    => { 'peek'     => 'peek'     } => undef             ],
 	);
 
 	my %already;
@@ -107,6 +136,7 @@ do {
 			Sub::HandlesVia::Handler
 				->lookup( $cap_methods->{$method}, 'Array' )
 				->loose
+				->$_munge_handler
 				->install_method( method_name => $method, code_generator => $cg );
 		}
 	}
@@ -118,7 +148,7 @@ do {
 	my @array_capabilities = (
 		[ 'Pushable'    => { 'push'     => 'push...'  } => undef             ],
 		[ 'Poppable'    => { 'pop'      => 'pop'      } => undef             ],
-		[ 'Peekable'    => { 'peek'     => ['get',-1] } => undef             ],
+		[ 'Peekable'    => { 'peek'     => 'peekend'  } => undef             ],
 	);
 	
 	my %already;
@@ -149,6 +179,7 @@ do {
 			Sub::HandlesVia::Handler
 				->lookup( $cap_methods->{$method}, 'Array' )
 				->loose
+				->$_munge_handler
 				->install_method( method_name => $method, code_generator => $cg );
 		}
 	}
@@ -288,7 +319,8 @@ An object which provides a C<join> method.
 The expectation is that when the method is called in scalar context, it should
 return a single item that is caused by joining all the items in the collection
 together, typically via string concatenation. The method may be passed a value
-to use as a separator.
+to use as a separator; if no separator is given, the method may use a default
+separator, typically something like "," or the empty string.
 
 Can be coerced from B<ArrayRef>, B<Mappable>, B<Greppable>, B<Eachable>,
 or B<ArrayLike>.

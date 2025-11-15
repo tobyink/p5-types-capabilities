@@ -61,10 +61,12 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[map] );
+
+		is( [ $coerced->map( sub { uc $_ } ) ], [ qw/ FOO BAR BAZ / ], 'coerced object has a working `map` method' );
 	};
 
 	tests 'type Greppable' => sub {
@@ -89,10 +91,12 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz/ ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[grep] );
+
+		is( [ $coerced->grep( sub { /^b/ } ) ], [ qw/ bar baz / ], 'coerced object has a working `grep` method' );
 	};
 
 	tests 'type Sortable' => sub {
@@ -117,10 +121,12 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[sort] );
+
+		is( [ $coerced->sort( sub { $_[0] cmp $_[1] } ) ], [ qw/ bar baz foo / ], 'coerced object has a working `sort` method' );
 	};
 
 	tests 'type Reversible' => sub {
@@ -145,10 +151,12 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[reverse] );
+
+		is( [ $coerced->reverse ], [ qw/ baz bar foo / ], 'coerced object has a working `reverse` method' );
 	};
 
 	tests 'type Countable' => sub {
@@ -173,10 +181,12 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[count] );
+
+		is( scalar($coerced->count), 3, 'coerced object has a working `count` method' );
 	};
 
 	tests 'type Joinable' => sub {
@@ -201,10 +211,13 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[join] );
+
+		is( scalar($coerced->join('!')), 'foo!bar!baz', 'coerced object has a working `join` method' );
+		is( scalar($coerced->join()), 'foo,bar,baz', '... and the separator is optional' );
 	};
 
 	tests 'type Eachable' => sub {
@@ -229,10 +242,14 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[each] );
+
+		my @got;
+		$coerced->each( sub { push @got, [$_] } );
+		is( \@got, [['foo'],['bar'],['baz']], 'coerced object has a working `each` method' );
 	};
 
 	tests 'type Enqueueable' => sub {
@@ -257,11 +274,14 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::QUEUE] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[enqueue] );
+
+		$coerced->enqueue( 'quux' );
+		is( [ @$coerced ], [ qw/ foo bar baz quux / ], 'coerced object has a working `enqueue` method' );
 	};
 
 	tests 'type Dequeueable' => sub {
@@ -286,11 +306,14 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::QUEUE] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[dequeue] );
+
+		is( scalar($coerced->dequeue), 'foo', 'coerced object has a working `dequeue` method' );
+		is( [ @$coerced ], [ qw/ bar baz / ], '... which removes the item from the queue' );
 	};
 
 	tests 'type Peekable' => sub {
@@ -315,11 +338,14 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::QUEUE] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[peek] );
+
+		is( scalar($coerced->peek), 'foo', 'coerced object has a working `peek` method' );
+		is( [ @$coerced ], [ qw/ foo bar baz / ], '... which doesn\'t alter the queue' );
 	};
 
 	tests 'type Pushable' => sub {
@@ -344,11 +370,14 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::STACK] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[push] );
+
+		$coerced->push( 'quux' );
+		is( [ @$coerced ], [ qw/ foo bar baz quux / ], 'coerced object has a working `push` method' );
 	};
 
 	tests 'type Poppable' => sub {
@@ -373,11 +402,14 @@ describe "class `$CLASS`" => sub {
 
 		ok( $type->coercion->has_coercion_for_value( [] ), 'an arrayref is theoretically coercible' );
 
-		my $coerced = $type->coerce( [] );
+		my $coerced = $type->coerce( [ qw/ foo bar baz / ] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::STACK] );
 		isa_ok( $coerced, q[Types::Capabilities::CoercedValue::ARRAYREF] );
 		ok( $type->check( $coerced ), 'coerced value passes type check' );
 		can_ok( $coerced, q[pop] );
+
+		is( scalar($coerced->pop), 'baz', 'coerced object has a working `pop` method' );
+		is( [ @$coerced ], [ qw/ foo bar / ], '... which removes the item from the queue' );
 	};
 };
 
