@@ -10,3 +10,10 @@
 		item [ label "It is now possible to coerce from Eachable, Mappable, and Greppable objects." ];
 	].
 
+`Types-Capabilities 0.002001 cpan:TOBYINK`
+	issued  2025-11-15;
+	changeset [
+		item [ label "More tests." ];
+		item [ label "Bugfixes for some stack/queue methods." ];
+	].
+

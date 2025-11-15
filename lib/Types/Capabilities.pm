@@ -5,7 +5,7 @@ use warnings;
 package Types::Capabilities;
 
 our $AUTHORITY = 'cpan:TOBYINK';
-our $VERSION   = '0.002000';
+our $VERSION   = '0.002001';
 
 use Type::Library -base;
 
